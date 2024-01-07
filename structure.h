@@ -52,6 +52,8 @@
 typedef struct _thread_msg {
     int N_p;
     int p_id;
+    int start;
+    int end;
     FILE * fp;
 } thread_msg;
 

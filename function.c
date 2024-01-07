@@ -137,8 +137,8 @@ double true_function(const double x, const double t){
  * @param x_delta Delta x.
  * @param t_delta Delta t.
  */
-void epoch(int t, int cur, int pre, int N_x, coord *** coords, double x_delta, double t_delta){
-    for (int x = 0; x <= N_x; x++){
+void epoch(int t, int cur, int pre, int N_x, int start, int end, coord *** coords, double x_delta, double t_delta){
+    for (int x = start; x <= end; x++){
         (*coords)[cur][x].x = x*x_delta;
         (*coords)[cur][x].t = t*t_delta;
         if (x==0 || x==N_x) {

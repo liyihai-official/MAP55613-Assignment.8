@@ -32,7 +32,7 @@
 
 int main(void){
     /* Initialize essential variables */
-    const int N_x = 10;
+    const int N_x = 500;
     const int N_t = N_x*N_x*2*(T_MAX - T_MIN) + 1;
 
     const double x_delta = (X_MAX - X_MIN) / N_x;
@@ -61,7 +61,7 @@ int main(void){
         cur = t%2;
 
         /* Calling united iteration function */
-        epoch(t, cur, pre, N_x, &coords, x_delta, t_delta);
+        epoch(t, cur, pre, N_x, 0, N_x, &coords, x_delta, t_delta);
 
         /* Write previous (t-1) status to file (append mode) */
         for (int x=0; x <= N_x; x++){

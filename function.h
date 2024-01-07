@@ -26,4 +26,4 @@ void initial_condition(coord *in, const int N, const double dx);
 double boundary_condition(const double x, const double t);
 double iteration_function(const double u1, const double u2);
 double true_function(const double x, const double t);
-void epoch(int t, int cur, int pre, int N_x, coord *** coords, double x_delta, double t_delta);
+void epoch(int t, int cur, int pre, int N_x, int start, int end, coord *** coords, double x_delta, double t_delta);

@@ -21,7 +21,7 @@ int current_thread = 0;
 const char FILE_NAME[] = "assignment8b_result.txt";
 
 coord ** coords;
-const int N_x = 50;
+const int N_x = 500;
 const int N_t = N_x*N_x*2*(T_MAX - T_MIN)+1;
 
 const double x_delta = (X_MAX - X_MIN) / N_x;
@@ -33,9 +33,9 @@ void *thread_function(void *arg);
 
 int main(void) {
     /* Initialize the informations of threads */
-    int N_p = 5; 
-    thread_msg msgs[5];
-    pthread_t threads[5];
+    int N_p = 4; 
+    thread_msg msgs[4];
+    pthread_t threads[4];
 
     coord_2d_array_alloc(&coords, 2, N_x+1); /* Initialize 2d array (2,N_x+1) pool for iteration*/
 
@@ -48,11 +48,20 @@ int main(void) {
         return_message(2);
     }
     
+    int interval[N_p+1];
+    interval[N_p] = N_x;
+    interval[0] = 0;
+    for (int i = N_p-1; i > 0; i--){
+        interval[i] = interval[i+1] - N_x / N_p;
+    }
+
     /* Initialize the pointer of message of each thread. */
     for (int i = 0; i<N_p; i++){
         msgs[i].fp = fp;
         msgs[i].N_p = N_p;
         msgs[i].p_id = i;
+        msgs[i].start = interval[i];
+        msgs[i].end = interval[i+1];
     }
 
     /* Initialize the mutex lock and condition */
@@ -120,9 +129,10 @@ void *thread_function(void *arg) {
         }        
         int cur = t%2;
         int pre = (t+1)%2;
-
+        int start = msg->start;
+        int end = msg->end;
         /* A unified function for compute values for next step. */
-        epoch(t, cur, pre, N_x, &coords, x_delta, t_delta);
+        epoch(t, cur, pre, N_x, start, end, &coords, x_delta, t_delta);
 
         if (thread_id+1 == msg->N_p){ /* Print the results if it is the last thread */
             for (int x=0; x <= N_x; x++){
